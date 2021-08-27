@@ -1,7 +1,16 @@
 # install environment
+python -m venv venv
+
+# activate environment (can be done with VS code extensions)
+linux:
+  source venv/bin/activate
+windows:
+  venv\Scripts\activate.bat
+ 
+# install requirements (use venv to avoid destroying your computer)
 pip install -r requirements.txt
 
-# config database (skip if use docker-compose to run config in db folder)
+# config database (skip if used docker-compose to run config in db folder)
 CREATE USER mobile_db_user SUPERUSER;
 
 ALTER USER mobile_db_user WITH PASSWORD 'mobile_db_secret';
