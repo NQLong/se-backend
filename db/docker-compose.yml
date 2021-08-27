@@ -7,9 +7,9 @@ services:
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=secret
             - POSTGRES_DB=postgres
-            - APP_DB_USER=mobile_db_user
-            - APP_DB_PASS=mobile_db_secret
-            - APP_DB_NAME=mobile_db
+            - APP_DB_USER=se_db_user
+            - APP_DB_PASS=se_db_secret
+            - APP_DB_NAME=se_db
             - PGDATA=/Backend/postgresql/data
         container_name: postgres_db
         volumes:
