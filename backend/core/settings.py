@@ -59,9 +59,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
 
-    'user_account',
     'oauth',
     'utils',
+
+    'user_account',
+    'media_file',
+    'restaurant',
+    'menu',
+    'transaction',
+    'reservation',
+
     'channels',
 
 ]
