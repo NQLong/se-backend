@@ -2,7 +2,7 @@ from django.db import models
 from utils.models import AbstractModel
 from user_account.models import User
 from media_file.models import Media
-from restaurant import Restaurant
+from restaurant.models import Restaurant
 class  RestaurantBanner(AbstractModel):
         class Meta:
             db_table = 'restaurant'
@@ -11,3 +11,4 @@ class  RestaurantBanner(AbstractModel):
         description=models.TextField(null=False)
         creator=models.ForeignKey(to=User, related_name='creator_restaurant_bannner', on_delete=models.CASCADE, null=False)
         ordinal=models.IntegerField(null=False)
+

@@ -3,7 +3,7 @@ from utils.models import AbstractModel
 from user_account.models import User
 from restaurant.models.dish import Dish
 from media_file.models import Media
-class Menu(models.Model):
+class Menu(AbstractModel):
 
         class Meta:
                 db_table = 'menu'
