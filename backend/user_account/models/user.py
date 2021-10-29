@@ -1,5 +1,5 @@
 from oauth.models.user_device_token import UserDeviceToken
-from utils import exceptions, messages
+from utils import enums, exceptions, messages
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
@@ -15,6 +15,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
 
         user = self.model(
+            username=email,
             email=self.normalize_email(email),
         )
 
@@ -62,6 +63,8 @@ class User(AbstractBaseUser, AbstractModel):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] # Email & Password are required by default.
+
+    type = models.CharField(max_length=32, choices=enums.UserAccountType.choices, default=enums.UserAccountType.CUSTOMER)
 
     username = models.CharField(max_length=255, unique=True)
 
@@ -118,5 +121,5 @@ class User(AbstractBaseUser, AbstractModel):
     def generate_access_token(self, **kwargs):
         if not self.is_active:
             raise exceptions.AuthenticationException(messages.INVALID_USER)
-        device_token = UserDeviceToken.objects.create(user = self, **kwargs)
+        device_token = UserDeviceToken.objects.create(user = self, active=True, **kwargs)
         return device_token
