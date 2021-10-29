@@ -27,11 +27,7 @@ class BearerTokenAuthentication(TokenAuthentication):
         if prefix.lower() != self.keyword:
             return None
 
-
-        if len(token) != 2:
-            raise exceptions.AuthenticationException(messages.INVALID_OR_EXPIRED_TOKEN)
-        
-        user = self.get_authenticate_user(token[1])
+        user, key = self.get_authenticate_user(token)
         return user, token
 
     def get_authenticate_user(self, token):

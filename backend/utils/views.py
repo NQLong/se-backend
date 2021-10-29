@@ -155,11 +155,10 @@ def api_view(
                 if query_debug:
                     api_function = query_debugger(api_function)
                 if permissions:
-                    api_function = permission_classes(permissions)(func)
+                    api_function = permission_classes(permissions)(api_function)
                 if schema_param:
                     ...  # swagger hasn't been implemented
-                request_data, files = get_request_data(request)
-                data = api_function(instance, request, request_data, files, *args, **kwargs)
+                data = api_function(instance, request, *args, **kwargs)
                 if paginate:
                     data = paginate_data(data, request)
                 return ResponseHandler.handle(data)

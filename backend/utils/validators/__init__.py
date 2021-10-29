@@ -15,16 +15,19 @@ class AbstractDataValidator:
         ]
         if error_messages:
             raise exceptions.InvalidArgumentException(message=', '.join(error_messages))
+    
+    def is_validate_field(self, key):
+        value = self.get_field(key)
+        if value:
+            validate_function = self.get_validate_function(key)
+            if validate_function:
+                validate_function(value)
+            else:
+                raise exceptions.ApplicationException(f'Missing valdating function on fields {key}')
 
     def is_validate_fields(self, keys):
         for key in keys:
-            value = self.get_field(key)
-            if value:
-                validate_function = self.get_validate_function(key)
-                if validate_function:
-                    validate_function(value)
-                else:
-                    raise exceptions.ApplicationException(f'Missing valdating function on fields {key}')
+            self.is_validate_field(key)
             
 
     def get_validate_function(self, key):
@@ -34,6 +37,10 @@ class AbstractDataValidator:
     def get_field(self, key):
         label = f'_{key}'
         return getattr(self, label, None)
+
+    def set_field(self, key, value):
+        label = f'_{key}'
+        return setattr(self, label, value)
 
     def get_data(self, keys):
         data = dict()
