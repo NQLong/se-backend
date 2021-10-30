@@ -29,6 +29,8 @@ EMPTY_CLOSE_AT = "Close at must not empty"
 # Not found
 NOT_FOUND_RESTAURANT = 'Restaurant not found'
 NOT_FOUND_MEDIA = 'Media file not found'
+NOT_FOUND_DISH = 'Dish not found'
+
 
 # collide field
 RESTAURANT_CODE_EXISTED = 'Restaurant code existed'

@@ -19,21 +19,22 @@ class Restaurant(AbstractModel):
     close_at = models.TimeField(null=False)
     creator = models.ForeignKey(to=User, related_name='creator_restaurant', on_delete=models.CASCADE, null=False)
 
-    @staticmethod
-    def get(uid=None, code=None, query: QuerySet=None):
-        try:
-            query = query or Restaurant.objects.all()
-            query = query.prefetch_related('restaurant_restaurant_banner')
-            return Restaurant.objects.get(
-                Q(uid=uid) if uid else Q(code=code)
-            )
-        except Exception as exception:
-            raise exceptions.ValidationException(message=messages.NOT_FOUND_RESTAURANT)
 
     @staticmethod
     def create_from_dict(data: dict):
         restaurant = Restaurant.objects.create(**data)
         return Restaurant.get(restaurant.uid)
+
+    @staticmethod
+    def get(uid=None, code=None, query: QuerySet=None):
+        try:
+            query = query or Restaurant.objects.all()
+            query = query.prefetch_related('restaurant_restaurant_banner')
+            return query.get(
+                Q(uid=uid) if uid else Q(code=code)
+            )
+        except Exception as exception:
+            raise exceptions.ValidationException(message=messages.NOT_FOUND_RESTAURANT)
 
     def update_banner(self, media_uid_list: list, user: User):
         from restaurant.models import RestaurantBanner

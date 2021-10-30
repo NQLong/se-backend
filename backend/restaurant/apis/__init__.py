@@ -1,1 +1,2 @@
-from .restaurant import RestaurantApi
+from .restaurant import *
+from .dish import *
