@@ -18,11 +18,12 @@ class AbstractDataValidator:
     
     def is_validate_field(self, key):
         value = self.get_field(key)
-        if value:
-            validate_function = self.get_validate_function(key)
-            if validate_function:
+        validate_function = self.get_validate_function(key)
+        if validate_function:
+            if value:
                 validate_function(value)
-            else:
+        else:
+            if key not in self.non_validate_fields:
                 raise exceptions.ApplicationException(f'Missing valdating function on fields {key}')
 
     def is_validate_fields(self, keys):

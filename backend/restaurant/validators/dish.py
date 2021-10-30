@@ -1,50 +1,38 @@
-# from restaurant.models.restaurant import Restaurant
-# from utils import exceptions, messages
-# from utils.validators import AbstractDataValidator
+from restaurant.models.dish import Dish
+from utils import exceptions, messages
+from utils.validators import AbstractDataValidator
+from .restaurant import RestaurantValidator
 
 
+class DishValidator(AbstractDataValidator):
 
-# class DishValidator(AbstractDataValidator):
+    is_missing_restaurant_identifier = RestaurantValidator.is_missing_restaurant_identifier
+    is_validate_restaurant = RestaurantValidator.is_validate_restaurant
 
-#     def validate_restaurant_code(self, value):
-#         try:
-#             Restaurant.get(code=value)
-#         except Exception as exception: pass
-#         else: raise exceptions.ValidationException(messages.RESTAURANT_CODE_EXISTED)
+    def is_valid_for_create(self, user):
+        self.set_field('creator', user)
+        self.is_missing_restaurant_identifier()
+        self.is_validate_restaurant()
+        self.is_missing_fields(['name'])
 
-#     def validate_restaurant_code(self,value):
-#         self.set_field('restaurant', Restaurant.get(code=value))
+        return self.get_data(['name', 'restaurant', 'creator', 'description', ''])
+    
+    def is_missing_dish_identifier(self):
+        value = self.get_field('dish_code') or self.get_field('dish_uid')
+        return not value
 
-#     def validate_restaurant_uid(self,value):
-#         self.set_field('restaurant', Restaurant.get(uid=value))
+    def get_dish_identifier(self):
+        return {'code': self.get_field('dish_code')}\
+            if self.get_field('dish_code') \
+                else {'uid': self.get_field('dish_uid')}
 
-#     def is_valid_for_create(self, user):
-#         self.is_missing_fields(keys=['code', 'name', 'address', 'open_at', 'close_at'])
-#         self.set_field('restaurant_code', self.get_field('code'))
-#         self.set_field('creator', user)
-#         try:
-#             self.validate_field('restaurant_code')
-#         except Exception as exc: pass
-#         else:
-#             raise exceptions.ValidationException(
-#                 messages.RESTAURANT_CODE_EXISTED
-#             )
+    def is_validate_dish(self):
+        self.set_field('dish', Dish.get(**self.get_dish_identifier()))
 
-#         return self.get_data(['code', 'name', 'address', 'open_at', 'close_at', 'creator'])
-
-#     def is_missing_restaurant_identifier(self):
-#         identifier = self.get_field('restaurant_code') or self.get_field('restaurant_uid')
-#         return not identifier
-
-#     def get_identifier(self):
-#         return {'code': self.get_field('restaurant_code')} \
-#             if self.get_field('restaurant_code') \
-#                 else {'uid': self.get_field('restaurant_uid')}
-
-#     def is_valid_for_get(self):
-#         if self.is_missing_restaurant_identifier():
-#             self.is_missing_fields('restaurant_identifier') #use this to raise empty exception
-#         self.is_validate_fields(['restaurant_code', 'restaurant_uid'])
-#         return self.get_identifier()
+    def is_valid_for_get(self):
+        if self.is_missing_dish_identifier():
+            self.is_missing_fields(['dish_identifier'])
+        self.is_validate_dish()
+        return self.get_dish_identifier()
 
 
