@@ -64,18 +64,8 @@ class User(AbstractBaseUser, AbstractModel):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] # Email & Password are required by default.
 
-    type = models.CharField(max_length=32, choices=enums.UserAccountType.choices, default=enums.UserAccountType.CUSTOMER)
-
     username = models.CharField(max_length=255, unique=True)
 
-    phone_number = models.CharField(max_length=16, null=True, blank=True)
-
-    first_name = models.CharField(max_length=128, null=True, blank=True)
-    last_name = models.CharField(max_length=128, null=True, blank=True)
-
-    description = models.TextField(null=True, blank=True)
-
-    language = models.CharField(default='vietnam', max_length=8)
 
     admin = models.BooleanField(default=False) # a superuser
     staff = models.BooleanField(default=False) # a admin user; non super-user
@@ -123,3 +113,15 @@ class User(AbstractBaseUser, AbstractModel):
             raise exceptions.AuthenticationException(messages.INVALID_USER)
         device_token = UserDeviceToken.objects.create(user = self, active=True, **kwargs)
         return device_token
+
+
+class UserProfile(AbstractModel):
+    class Meta:
+        db_table = 'user_profile'
+
+    type = models.CharField(max_length=32, choices=enums.UserAccountType.choices, default=enums.UserAccountType.CUSTOMER)
+    phone_number = models.CharField(max_length=16, null=True, blank=True)
+    full_name = models.CharField(max_length=1024, null=True, blank=True)
+    address = models.CharField(max_length=1024, null=True, blank=True)
+    restaurant = models.ForeignKey(to='restaurant.Restaurant', null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='profile')

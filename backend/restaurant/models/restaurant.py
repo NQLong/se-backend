@@ -6,12 +6,13 @@ from utils import exceptions, messages
 from utils.exceptions import NotFoundException
 from utils.models import AbstractModel
 from user_account.models import User
+from autoslug import AutoSlugField
 
 
 class Restaurant(AbstractModel):
     class Meta:
         db_table = 'restaurant'
-    code = models.CharField(max_length=32, unique=True)
+    code = AutoSlugField(populate_from='title', unique=True)
     name = models.TextField(null=False)
     address = models.TextField(null=False)
     hot_line = models.CharField(max_length=16, null=True, blank=True)
