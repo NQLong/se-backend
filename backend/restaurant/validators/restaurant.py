@@ -34,15 +34,10 @@ class RestaurantValidator(AbstractDataValidator):
         ).exists()
 
     def is_valid_for_create(self, user):
-        self.is_missing_fields(keys=['restaurant_code', 'name', 'address', 'open_at', 'close_at'])
-        self.set_field('code', self.get_field('restaurant_code'))
+        self.is_missing_fields(keys=['name', 'address', 'open_at', 'close_at'])
         self.set_field('creator', user)
-        if self.is_restaurant_exists():
-            raise exceptions.ValidationException(
-                messages.RESTAURANT_CODE_EXISTED
-            )
 
-        return self.get_data(['code', 'name', 'address', 'open_at', 'close_at', 'creator'])
+        return self.get_data(['name', 'address', 'open_at', 'close_at', 'creator'])
 
     def is_missing_restaurant_identifier(self):
         identifier = self.get_field('restaurant_code') or self.get_field('restaurant_uid')

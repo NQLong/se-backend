@@ -7,12 +7,12 @@ from utils.models import AbstractModel
 from user_account.models import User
 from restaurant.models.restaurant import Restaurant
 from utils.models import generate_unique_slug_field
-
+from autoslug import AutoSlugField
 class Dish(AbstractModel):
     class Meta:
         db_table = 'dish'
 
-    code = models.SlugField(unique=True)
+    code = AutoSlugField(populate_from='title', unique=True)
     name = models.CharField(max_length=1024, null=False)
     description = models.TextField(null=True, blank=True)
     restaurant = models.ForeignKey(to=Restaurant, related_name='restaurant_dish', on_delete=models.CASCADE, null=False)
@@ -60,4 +60,13 @@ class Dish(AbstractModel):
         new_banners = DishBanner.objects.bulk_create(new_banners)
         return new_banners
 
+
+class Category(AbstractModel):
+    title = models.CharField(max_length=1024, unique=True)
+    code = AutoSlugField(populate_from='title', unique=True)
+
+
+class DishCategory(AbstractModel):
+    dish = models.ForeignKey(to=Dish, related_name='dish_category_dish', on_delete=models.CASCADE, null=False)
+    category = models.ForeignKey(to=Category, related_name='dish_category_category', on_delete=models.CASCADE, null=False)
 

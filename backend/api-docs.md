@@ -1,0 +1,57 @@
+# 1. restaurants
+
+- get restaurant
+  - <https://v2nqlong.redirectme.net/restaurants/get>
+  - method: GET
+  - implemented: True
+  - module: any
+- list restaurants
+  - <https://v2nqlong.redirectme.net/restaurants/matrix>
+  - method: POST
+  - implemented: True
+  - module: any
+- create restaurants
+  - <https://v2nqlong.redirectme.net/restaurants/create>
+  - method: POST
+  - module: admin
+  - implemented: True
+- get dish
+  - <https://v2nqlong.redirectme.net/restaurants/dishes/get>
+  - method: GET
+  - implemented: True
+  - module: any
+- list dishes
+  - <https://v2nqlong.redirectme.net/restaurants/dishes/matrix>
+  - method: POST
+  - implemented: True
+  - module: any
+- create dish
+  - <https://v2nqlong.redirectme.net/restaurants/dishes/create>
+  - method: POST
+  - implemented: True
+  - module: any
+- add dish categories
+  - <https://v2nqlong.redirectme.net/restaurants/dishes/add-categories>
+  - method: POST
+  - implemented: True
+  - module: any
+- get menu
+  - <https://v2nqlong.redirectme.net/restaurants/menus/get>
+  - method: GET
+  - implemented: True
+  - module: any
+- list menu
+  - <https://v2nqlong.redirectme.net/restaurants/menus/matrix>
+  - method: POST
+  - implemented: True
+  - module: any
+- get menu item
+  - <https://v2nqlong.redirectme.net/restaurants/menus/items/get>
+  - method: POST
+  - implemented: True
+  - module: any
+- list menu items
+  - <https://v2nqlong.redirectme.net/restaurants/menus/items/get>
+  - method: POST
+  - implemented: True
+  - module: any

@@ -160,7 +160,7 @@ def api_view(
                     ...  # swagger hasn't been implemented
                 data = api_function(instance, request, *args, **kwargs)
                 if paginate:
-                    data = paginate_data(data, request)
+                    data = paginate_data(request, data)
                 return ResponseHandler.handle(data)
             except Exception as exception:
                 if exception_handler:

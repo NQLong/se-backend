@@ -25,6 +25,7 @@ urlpatterns = [
         path('', include('oauth.urls')),
         path('', include('restaurant.urls')),
         path('', include('media_file.urls')),
+        path('', include('menu.urls')),
 
     ]))
 ]

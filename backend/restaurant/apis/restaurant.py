@@ -12,8 +12,8 @@ class RestaurantApi(AbstractView):
         methods=['POST'], 
         url_path='create', 
         permissions=[permissions.IsAdminUser],
-        # exception_handler=False,
-        )
+        exception_handler=False,
+    )
     def create_restaurant(self, request, *args, **kwargs):
         request_data = request.data
         validator = RestaurantValidator(**request_data)
@@ -22,6 +22,7 @@ class RestaurantApi(AbstractView):
 
         banners = request_data.get('banners', [])
         restaurant.update_banner(banners, request.user)
+        restaurant = Restaurant.objects.get(uid=restaurant.uid)
         serializer = RestaurantSerializer(restaurant)
         return serializer.data
 
@@ -38,6 +39,19 @@ class RestaurantApi(AbstractView):
         serializer = RestaurantSerializer(restaurant)
         return serializer.data
 
-
+    @api_view(
+        methods=['POST'], 
+        url_path='matrix', 
+        permissions=[permissions.AllowAny],
+        paginate=True,
+    )
+    def matrix_restaurant(self, request, *args, **kwargs):
+        data = request.POST.dict()
+        # validator = RestaurantValidator(**data)
+        # identifier = validator.is_valid_for_get()
+        # restaurant = Restaurant.get(**identifier)
+        restaurants = Restaurant.objects.all()
+        serializer = RestaurantSerializer(restaurants, many=True)
+        return serializer.data
 
 
