@@ -124,4 +124,4 @@ class UserProfile(AbstractModel):
     full_name = models.CharField(max_length=1024, null=True, blank=True)
     address = models.CharField(max_length=1024, null=True, blank=True)
     restaurant = models.ForeignKey(to='restaurant.Restaurant', null=True, blank=True, on_delete=models.SET_NULL)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name='profile')

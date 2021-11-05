@@ -34,3 +34,6 @@ NOT_FOUND_DISH = 'Dish not found'
 
 # collide field
 RESTAURANT_CODE_EXISTED = 'Restaurant code existed'
+EMPTY_FILE='file is empty'
+FILE_NAME_EMPTY='file name is empty'
+UNSUPPORT_CONTENT_TYPES='unsupport_content_types'

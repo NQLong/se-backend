@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from menu.models import MenuItem
-from restaurant.serializers import DishListSerializer
+from restaurant.serializers import DishSerializer
 
 class MenuItemSerializer(serializers.ModelSerializer):
-    dish = DishListSerializer()
+    dish = DishSerializer()
 
     class Meta:
         model = MenuItem

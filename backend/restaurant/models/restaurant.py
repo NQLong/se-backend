@@ -12,8 +12,9 @@ from autoslug import AutoSlugField
 class Restaurant(AbstractModel):
     class Meta:
         db_table = 'restaurant'
-    code = AutoSlugField(populate_from='title', unique=True)
+
     name = models.TextField(null=False)
+    code = AutoSlugField(populate_from='name', unique=True)
     address = models.TextField(null=False)
     hot_line = models.CharField(max_length=16, null=True, blank=True)
     open_at = models.TimeField(null=False)
@@ -45,6 +46,7 @@ class Restaurant(AbstractModel):
             ordinal=ordinal,
             creator=user
         ) for ordinal, media_uid in enumerate(media_uid_list)]
+        print(new_banners)
         new_banners = RestaurantBanner.objects.bulk_create(new_banners)
         return new_banners
 

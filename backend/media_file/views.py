@@ -6,7 +6,8 @@ from media_file.serializers import BaseMediaSerializer
 from utils import messages, exceptions
 from utils.enums import DirectoryFile, StorageType
 from utils.views import query_debugger, paginate_data, AbstractView, api_view
-from rest_framework.decorators import action
+from rest_framework.decorators import action, parser_classes
+from rest_framework import parsers
 from rest_framework import permissions
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -15,15 +16,17 @@ User = get_user_model()
 
 class MediaAPI(AbstractView):
     permission_classes = [permissions.IsAuthenticated]
-
+    parser_classes=[parsers.MultiPartParser, parsers.FormParser]
     media_create_fields = [
         'file_name', 'description', 'directory', 'digest', 'access_url', 'size', 'content_type'
     ]
 
-    @api_view(methods=['POST'], url_path='create')
+    @api_view(methods=['POST'], url_path='create', exception_handler=False)
     def create_media(self, request):
         data = request.POST.dict()
         file = request.FILES.dict().get('media', None)
+        print(request.FILES)
+        print(request.POST)
         creator = request.user
 
         media_dict = {
@@ -55,7 +58,8 @@ class MediaAPI(AbstractView):
                     message=messages.FILE_SIZE_EMPTY)
             if media_dict['content_type'] not in SUPPORTED_CONTENT_TYPES:
                 raise exceptions.ValidationException(
-                    message=messages.UNSUPPORT_CONTENT_TYPES)
+                    message=messages.UNSUPPORT_CONTENT_TYPES
+                )
 
             media_dict['storage_type'] = StorageType.EXTERNAL
 

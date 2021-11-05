@@ -12,7 +12,7 @@ class MenuFilter(FilterSet):
         model = Menu
         fields = [
             'uid',
-            'name',
+            'title',
             'code',
             'restaurant',
             'active'

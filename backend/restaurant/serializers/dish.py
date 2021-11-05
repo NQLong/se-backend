@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from media_file.serializers import BaseMediaSerializer
-from restaurant.models.dish import Dish
+from restaurant.models.dish import Category, Dish
 from .restaurant import RestaurantListSerializer
 
 class DishBannerListSerializer(serializers.Serializer):
@@ -33,5 +33,9 @@ class DishSerializer(DishListSerializer):
     #     return super(serializers.Serializer, self).to_representation(instance)
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        exclude = ['id']
 
 

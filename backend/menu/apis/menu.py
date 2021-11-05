@@ -26,7 +26,8 @@ class MenuApi(AbstractView):
     @api_view(
         methods=['POST'],
         url_path='matrix',
-        
+        paginate=True,
+        exception_handler=False,
     )
     def list_menu(self, request):
         data = request.data
@@ -36,6 +37,7 @@ class MenuApi(AbstractView):
         )
         query = MenuFilter(data=data, queryset=query).qs
         serializer = MenuListSerializer(query, many=True)
-        return serializer.data
+        print(serializer.data)
+        return serializer.data or []
 
 
