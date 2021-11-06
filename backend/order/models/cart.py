@@ -1,3 +1,4 @@
+from enum import unique
 from user_account.models.user import User
 from utils.models import AbstractModel
 from restaurant.models import Restaurant
@@ -8,6 +9,7 @@ from menu.models import MenuItem
 class Cart(AbstractModel):
     class Meta:
         db_table = 'cart'
+        unique_together = ('user', 'restaurant')
 
     restaurant = models.ForeignKey(to=Restaurant, related_name='restaurant_cart', on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, related_name='user_cart', on_delete=models.CASCADE)
