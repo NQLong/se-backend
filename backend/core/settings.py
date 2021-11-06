@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 # Setup environment
-ENVIRONMENT = 'development'
+ENVIRONMENT = 'production'
 STATIC_ROOT ='./static'
 env_file_name = ('.env.production' if ENVIRONMENT == 'production' else '.env.dev')
 print('== file_name: ', env_file_name)
