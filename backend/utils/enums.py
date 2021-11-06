@@ -30,3 +30,10 @@ class DirectoryFile(models.TextChoices):
     QUESTION = 'QUESTION'
     ANSWER = 'ANSWER'
     EMAIL = 'EMAIL'
+
+@unique
+class OrderStaus(models.TextChoices):
+    REQUESTED = 'REQUEST'
+    DENIED = 'DENIED'
+    APPROVE = 'APPROVE'
+    CANCEL = 'CANCEL'
